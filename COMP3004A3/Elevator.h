@@ -6,16 +6,30 @@
 
 using namespace std;
 
+class Passenger;
+class ECS;
+
 class Elevator{
 
 public:
+    Elevator();
     Elevator(int elevator_number, int current_floor, int destination_floor, bool obstructed, bool overloaded, bool door_open);
+
+    void move();
+
+    void setDestination(int destination_floor);
+
+    int getElevatorNumber();
+
+    int getDestination();
 
     void ring();
     //ring represents the ringing of the elevator bell
 
     void display(char* message);
     //display() represents the display system of the elevator
+
+    void displayFloor();
 
     void announce(char* message);
     //announce() represents the sound system of the elevator
@@ -34,6 +48,8 @@ public:
 
     bool detectOverloaded();
     //detectOverloaded returns the overloaded variable
+
+    void helpRequested(ECS* owner, Passenger* p);
 
 private:
     int elevator_number;

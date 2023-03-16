@@ -1,10 +1,80 @@
 #include "Elevator.h"
+#include "ECS.h"
+#include "Passenger.h"
 #include <QtGlobal>
 using namespace std;
+
+Elevator::Elevator(){
+
+}
 
 Elevator::Elevator(int elevator_number, int current_floor, int destination_floor, bool obstructed, bool overloaded, bool door_open):
 elevator_number(elevator_number), current_floor(current_floor), destination_floor(destination_floor), obstructed(obstructed), overloaded(overloaded), door_open(door_open){
     //set member class variables
+}
+
+void Elevator::move(){
+    //move() moves the elevator from it's current floor to it's destination floor
+
+    if(!this->detectOverloaded()){
+        if(this->destination_floor == -1){
+            //this elevator is idle
+
+            qInfo("Elevator %d is idle", this->getElevatorNumber());
+        }else{
+
+            qInfo("Elevator %d moving",this->elevator_number);
+            this->current_floor = this->destination_floor;
+            this->destination_floor = -1;
+            this->displayFloor();
+            this->ring();
+            this->open_door();
+            qInfo("Waiting for 10 sec");
+            this->close_door();
+
+        }
+    }else{
+        this->display("Weight Warning: reduce the weight to proceed");
+        this->announce("Weight Warning: reduce the weight to proceed");
+        if(!this->detectOverloaded()){
+            if(this->destination_floor == -1){
+                //this elevator is idle
+
+                qInfo("Elevator %d is idle", this->getElevatorNumber());
+            }else{
+
+                qInfo("Elevator %d moving",this->elevator_number);
+                this->current_floor = this->destination_floor;
+                this->destination_floor = -1;
+                this->displayFloor();
+                this->ring();
+                this->open_door();
+                qInfo("Waiting for 10 sec");
+                this->close_door();
+
+            }
+        }else{
+            this->display("Weight Warning: reduce the weight to proceed");
+            this->announce("Weight Warning: reduce the weight to proceed");
+        }
+    }
+
+}
+
+void Elevator::setDestination(int destination_floor){
+    //setDestination() just sets the destination floor to represent passenger selecting a destination
+
+    this->destination_floor = destination_floor;
+}
+
+int Elevator::getElevatorNumber(){
+
+    return this->elevator_number;
+}
+
+int Elevator::getDestination(){
+
+    return this->destination_floor;
 }
 
 void Elevator::ring(){
@@ -14,12 +84,16 @@ void Elevator::ring(){
 
 void Elevator::display(char* message){
     //display() represents the display of this elevator
-    qInfo("Display: %s" , message);
+    qInfo("Elevator %d Display: %s" , this->elevator_number, message);
+}
+
+void Elevator::displayFloor(){
+    qInfo("Current Floor: %d", this->current_floor);
 }
 
 void Elevator::announce(char* message){
     //announce() represents the sound system of this elevator
-    qInfo("Audio: %s" , message);
+    qInfo("Elevator %d Audio: %s" , this->elevator_number, message);
 }
 
 void Elevator::open_door(){
@@ -30,24 +104,46 @@ void Elevator::open_door(){
 
 void Elevator::close_door(){
     //close_door() represents the elevator closing its door
-    qInfo("Closing door");
-    this->door_open = false;
+    if(!this->detectObstructed()){
+        qInfo("Closing door");
+        this->door_open = false;
+    }else{
+        qInfo("Door obstructed remove obstacle");
+        qInfo("Wait 5 sec");
+        if(!this->detectObstructed()){
+            qInfo("Closing door");
+            this->door_open = false;
+        }else{
+            this->display("Warning:Remove obstacle to continue");
+            this->announce("Warning:Remove obstacle to continue");
+
+        }
+    }
 }
 
 int Elevator::detectLocation(){
     //detectLocation() represents the elevator signalling its sensor to get its location
-    qInfo("Elevator %d detectic location", this->elevator_number);
+    qInfo("Elevator %d detecting location", this->elevator_number);
     return this->destination_floor;
 }
 
 bool Elevator::detectObstructed(){
     //detectObstructed() represents the elevator signalling its light sensor to detect obstructions
-    qInfo("Elevator %d detecting obstruction", this->elevator_number);
+    if(this->obstructed){
+        qInfo("Elevator %d detecting obstruction", this->elevator_number);
+    }
     return this->obstructed;
 }
 
 bool Elevator::detectOverloaded(){
     //detectOverloaded() represents the elevator signalling its weight sensor to detect overloading
-    qInfo("Elevator %d detecting overload", this->elevator_number);
+    if(this->overloaded){
+        qInfo("Elevator %d detecting overload", this->elevator_number);
+    }
     return this->overloaded;
+}
+
+void Elevator::helpRequested(ECS* owner, Passenger* p){
+    qInfo("Help button pressed");
+    owner->connect(this->elevator_number,p);
 }
