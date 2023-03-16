@@ -13,6 +13,7 @@ class Floor{
 public:
     Floor();
     Floor(int floor_number);
+    //Floor class represents the floors the ECS is meant to serve and really only needs a floor number
 
     int makeRequest(ECS* owner);
     //makeRequest() will cause the ECS to allocate an elevator to this floor

@@ -22,6 +22,5 @@ int main(int argc, char *argv[])
 
     //powerOut();
 
-    qInfo("End");
     return a.exec();
 }

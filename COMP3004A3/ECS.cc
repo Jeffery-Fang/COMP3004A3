@@ -6,6 +6,9 @@
 using namespace std;
 
 ECS::ECS(int num_floors, int num_elevators, int algorithmnum){
+    //initialize the ECS by allocating a user specified number of floors and elevators
+    //as well as a variable allocation algorithm
+
     this->floors = new Floor*[num_floors+1];
     this->elevators = new Elevator*[num_elevators+1];
 
@@ -70,6 +73,8 @@ Elevator* ECS::getElevator(int elevator_number){
 }
 
 void ECS::connect(int elevator_number, Passenger* p){
+    //connect() simulates the ECS connecting an elevators sound system to the safety services
+    //outcome depends on whether the passenger is concious or not
 
     qInfo("Connected");
     qInfo("Safety service prompts response");
@@ -84,6 +89,7 @@ void ECS::connect(int elevator_number, Passenger* p){
 }
 
 void ECS::Fire(bool fromBuilding, int elevator_number){
+    //Fire() simulates the ECS receiving a fire signal either from the building or a specific elevator
 
     if(fromBuilding){
         qInfo("Fire signal from building");
@@ -109,6 +115,7 @@ void ECS::Fire(bool fromBuilding, int elevator_number){
 }
 
 void ECS::powerOut(){
+    //powerOut() simulates the ECS receiving a power out signal
 
     for(int i = 1; i < this->num_elevators+1; i++){
         this->elevators[i]->display("Power Outage");

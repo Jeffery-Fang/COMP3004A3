@@ -9,6 +9,8 @@ class Algorithm2: virtual public AllocationAlgorithm{
 
 public:
     int allocate(Elevator** elevators, int request_floor, int num_elevators);
+    //Algorithm2 overrides the allocate() method with the above described method of determining
+    //the optimal elevator
 
 };
 
