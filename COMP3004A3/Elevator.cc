@@ -31,6 +31,7 @@ void Elevator::move(){
             this->ring();
             this->open_door();
             qInfo("Waiting for 10 sec");
+            this->ring();
             this->close_door();
 
         }

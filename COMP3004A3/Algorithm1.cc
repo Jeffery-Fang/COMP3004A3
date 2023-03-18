@@ -11,8 +11,8 @@ int Algorithm1::allocate(Elevator** elevators, int request_floor, int num_elevat
     int min_index = 1;
 
     for(int i = 1; i < num_elevators; i++){
-        if(abs(request_floor - elevators[i]->getDestination()) < min){
-            min = elevators[i]->getDestination();
+        if(abs(request_floor - elevators[i]->detectLocation()) < min){
+            min = elevators[i]->detectLocation();
             min_index = i;
         }
     }

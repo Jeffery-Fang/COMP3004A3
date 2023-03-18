@@ -40,7 +40,7 @@ void HelpRequested(){
     Elevator* current = new Elevator(1,1,5,false,false,false);
     ECS* temp = new ECS(5,2,2);
 
-    current->helpRequested(temp,me);
+    me->pressHelpButton(temp,current);
 
     delete me;
     delete current;

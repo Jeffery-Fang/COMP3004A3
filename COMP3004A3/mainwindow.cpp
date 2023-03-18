@@ -96,7 +96,7 @@ void MainWindow::Help(){
     ECS* temp = new ECS(5,2,1);
 
     qInfo("Help Requested");
-    current->helpRequested(temp,me);
+    me->pressHelpButton(temp,current);
     qInfo("\n");
 
     delete me;

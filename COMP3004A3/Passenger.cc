@@ -26,6 +26,13 @@ void Passenger::pressElevatorButton(Elevator* cur_elevator, ECS* owner){
     owner->serveElevator(cur_elevator->getElevatorNumber());
 }
 
+void Passenger::pressHelpButton(ECS* owner,Elevator* cur_elevator){
+    //When the passenger presses the help button it causes the elevator to signal the ECS
+
+    cur_elevator->helpRequested(owner,this);
+
+}
+
 bool Passenger::respond(){
     //If the passenger is unconcious then they will not respond when prompted
 

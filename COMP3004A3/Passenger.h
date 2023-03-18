@@ -19,6 +19,9 @@ public:
     //pressElevatorButton() simulates the passenger pressing a destination button in the elevator
     //that ser ved the floor request
 
+    void pressHelpButton(ECS* owner ,Elevator* cur_elevator);
+    //pressHelpButton represents the passenger pressing the help button
+
     bool respond();
     //respond() simulates the passenger responding when prompted and it will depend on whether or
     //not the passenger is concious
